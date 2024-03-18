@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.shop.mapper.CartMapper">
+
+    <!-- 장바구니 담기-->
+    <insert id="addCart" parameterType="com.shoppingmall.shop.data.CartDTO">
+        INSERT INTO cart (customer_id, pno, quantity)
+        VALUES (#{customerId}, #{pno}, #{quantity})
+    </insert>
+
+    <!-- 장바구니 삭제-->
+    <delete id="deleteCart" parameterType="com.shoppingmall.shop.data.CartDTO">
+        DELETE
+        FROM cart
+        WHERE pno = #{pno}
+    </delete>
+
+    <!-- 장바구니 목록 -->
+    <select id="getCartList" resultType="com.shoppingmall.shop.data.CartDTO">
+        SELECT *
+        FROM cart
+        WHERE customer_id = #{customerId}
+    </select>
+
+    <!-- 장바구니 상품 pno, quantity 가져오기 -->
+    <select id="getCartByCtno" resultType="com.shoppingmall.shop.data.CartDTO">
+        SELECT pno, quantity
+        FROM cart
+        WHERE ctno = #{ctno}
+    </select>
+
+    <!-- 주문 완료 시 orderyn Y로 업데이트-->
+    <update id="updateOrderyn" parameterType="com.shoppingmall.shop.data.CartDTO">
+        UPDATE cart
+        SET orderyn = 'Y'
+        WHERE ctno = #{ctno}
+    </update>
+
+</mapper>

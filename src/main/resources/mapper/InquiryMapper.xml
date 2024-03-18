@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.shop.mapper.InquiryMapper">
+
+    <!-- 문의글 등록 -->
+    <insert id="addInquiry" parameterType="com.shoppingmall.shop.data.InquiryDTO">
+        INSERT INTO inquiry(customer_id, category, title, content)
+        VALUES (#{customerId}, #{category}, #{title}, #{content})
+    </insert>
+
+    <!-- 문의글 수정 -->
+    <update id="updateInquiry" parameterType="com.shoppingmall.shop.data.InquiryDTO">
+        UPDATE inquiry
+        SET category=#{category},
+            title=#{title},
+            content=#{content}
+        WHERE ino = #{ino}
+          AND customer_id = #{customerId}
+          AND status = '문의중'
+    </update>
+
+    <!-- 문의글 상세 보기-->
+    <select id="getInquiryById" resultType="com.shoppingmall.shop.data.InquiryDTO">
+        SELECT *
+        FROM inquiry
+        WHERE ino = #{ino}
+          AND customer_id = #{customerId}
+    </select>
+
+    <!-- 문의글 삭제 -->
+    <delete id="deleteInquiry" parameterType="com.shoppingmall.shop.data.InquiryDTO">
+        DELETE
+        FROM inquiry
+        WHERE ino = #{ino}
+          AND customer_id = #{customerId}
+          AND status = '문의중'
+    </delete>
+
+    <!-- 문의글 목록 -->
+    <select id="getInquiryList" resultType="com.shoppingmall.shop.data.InquiryDTO">
+        SELECT * FROM inquiry WHERE customer_id=#{customerId} ORDER BY regdate DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.shop.mapper.OrderMapper">
+
+    <insert id="addOrder" parameterType="com.shoppingmall.shop.data.OrdersDTO">
+        INSERT INTO orders (customer_id, ctno, total_price)
+        VALUES (#{customerId}, #{ctno}, #{totalPrice})
+    </insert>
+
+    <insert id="addOrderDetail" parameterType="com.shoppingmall.shop.data.OrderDetailDTO">
+        INSERT INTO order_detail(ono, pno, quantity)
+        VALUES (#{ono}, #{pno}, #{quantity})
+    </insert>
+
+    <!-- customer_id 마지막에 생성된 ono를 가져오기 -->
+    <select id="getLastInsertOneById" resultType="int">
+        SELECT ono
+        FROM orders
+        WHERE customer_id = #{customerId}
+        ORDER BY ono DESC LIMIT 1
+    </select>
+
+    <!-- 주문 취소 -->
+    <update id="cancelOrder" parameterType="com.shoppingmall.shop.data.OrdersDTO">
+        UPDATE orders
+        SET order_status='주문취소'
+        WHERE ono = #{ono}
+    </update>
+
+    <!-- 주문 목록 보기 -->
+    <select id="getOrderList" resultType="com.shoppingmall.shop.data.OrdersDTO">
+        SELECT *
+        FROM orders
+        WHERE customer_id = #{customerId}
+        ORDER BY regdate DESC
+    </select>
+
+    <!-- 주문 상세 목록 보기 -->
+    <select id="getOrderDetailList" resultType="com.shoppingmall.shop.data.OrderDetailDTO">
+        SELECT *
+        FROM order_detail
+        WHERE ono = #{ono}
+    </select>
+
+    <!-- 주문했던 상품인지 확인-->
+    <select id="isProductOrdered" resultType="boolean">
+    <![CDATA[
+        SELECT COUNT(*) > 0
+        FROM orders o
+                 INNER JOIN order_detail od ON o.ono = od.ono
+        WHERE od.pno = #{pno}
+          AND o.customer_id = #{customerId}
+        ]]>
+</select>
+
+    <!-- 주문 상태 변경 -->
+    <update id="updateOrderStatus" parameterType="com.shoppingmall.shop.data.OrdersDTO">
+        UPDATE orders
+        SET order_status = #{orderStatus}
+        WHERE ono = #{ono}
+    </update>
+
+    <!-- 주문 상태 조회 -->
+    <select id="getOrderStatus" resultType="String">
+        SELECT order_status
+        FROM orders
+        WHERE ono = #{ono}
+    </select>
+
+    <!-- 환불 처리 -->
+    <update id="refund" parameterType="com.shoppingmall.shop.data.OrdersDTO">
+        UPDATE orders
+        SET refund_status = 'Y'
+        WHERE ono = #{ono}
+        AND order_status='주문취소'
+    </update>
+
+</mapper>
