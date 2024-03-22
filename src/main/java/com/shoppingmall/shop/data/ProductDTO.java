@@ -42,4 +42,6 @@ public class ProductDTO {
     @Schema(description = "브랜드 고유 번호")
     private int bno;
 
+    private BrandDTO brand;
+
 }

@@ -3,13 +3,13 @@
 <mapper namespace="com.shoppingmall.shop.mapper.InquiryMapper">
 
     <!-- 문의글 등록 -->
-    <insert id="addInquiry" parameterType="com.shoppingmall.shop.data.InquiryDTO">
+    <insert id="addInquiry" parameterType="inquiry">
         INSERT INTO inquiry(customer_id, category, title, content)
         VALUES (#{customerId}, #{category}, #{title}, #{content})
     </insert>
 
     <!-- 문의글 수정 -->
-    <update id="updateInquiry" parameterType="com.shoppingmall.shop.data.InquiryDTO">
+    <update id="updateInquiry" parameterType="inquiry">
         UPDATE inquiry
         SET category=#{category},
             title=#{title},
@@ -20,7 +20,7 @@
     </update>
 
     <!-- 문의글 상세 보기-->
-    <select id="getInquiryById" resultType="com.shoppingmall.shop.data.InquiryDTO">
+    <select id="getInquiryById" resultType="inquiry">
         SELECT *
         FROM inquiry
         WHERE ino = #{ino}
@@ -28,7 +28,7 @@
     </select>
 
     <!-- 문의글 삭제 -->
-    <delete id="deleteInquiry" parameterType="com.shoppingmall.shop.data.InquiryDTO">
+    <delete id="deleteInquiry" parameterType="inquiry">
         DELETE
         FROM inquiry
         WHERE ino = #{ino}
@@ -37,7 +37,7 @@
     </delete>
 
     <!-- 문의글 목록 -->
-    <select id="getInquiryList" resultType="com.shoppingmall.shop.data.InquiryDTO">
+    <select id="getInquiryList" resultType="inquiry">
         SELECT * FROM inquiry WHERE customer_id=#{customerId} ORDER BY regdate DESC
     </select>
 
