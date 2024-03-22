@@ -3,25 +3,25 @@
 <mapper namespace="com.shoppingmall.shop.mapper.ReviewMapper">
 
     <!-- 리뷰 등록 -->
-    <insert id="addReview" parameterType="com.shoppingmall.shop.data.ReviewDTO">
+    <insert id="addReview" parameterType="reply">
         INSERT INTO review (customer_id, pno, rating, content)
         VALUES (#{customerId}, #{pno}, #{rating}, #{content})
     </insert>
 
     <!-- 내 리뷰 목록 가져오기-->
-    <select id="getReviewList" resultType="com.shoppingmall.shop.data.ReviewDTO">
+    <select id="getReviewList" resultType="reply">
         SELECT * FROM review WHERE customer_id=#{customerId}
     </select>
 
     <!-- 리뷰 수정 -->
-    <update id="updateReview" parameterType="com.shoppingmall.shop.data.ReviewDTO">
+    <update id="updateReview" parameterType="reply">
         UPDATE review
         SET rating=#{rating},
             content=#{content}
         WHERE rno = #{rno}
     </update>
 
-    <select id="getReviewById" resultType="com.shoppingmall.shop.data.ReviewDTO">
+    <select id="getReviewById" resultType="reply">
         SELECT *
             FROM review
         WHERE rno=#{rno}

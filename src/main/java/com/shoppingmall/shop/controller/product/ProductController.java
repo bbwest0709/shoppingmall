@@ -31,7 +31,7 @@ public class ProductController {
         return "카테고리 등록 완료";
     }
 
-    @Operation(summary = "카테고리 삭제", description = "상품 브랜드를 삭제할 수 있습니다.", responses = {
+    @Operation(summary = "카테고리 삭제", description = "카테고리를 삭제할 수 있습니다.", responses = {
             @ApiResponse(responseCode="200", description = "카테고리 삭제 성공", content = @Content(schema = @Schema(implementation = CategoryDTO.class))),
             @ApiResponse(responseCode = "500", description = "카테고리 삭제 실패", content = @Content(schema = @Schema(implementation = CategoryDTO.class))),
     })
@@ -68,7 +68,7 @@ public class ProductController {
     @PostMapping("/product/add")
     public String addProduct(@RequestBody ProductDTO productDTO) {
         productService.addProduct(productDTO);
-        return productDTO.getPno() + " 등록 완료";
+        return productDTO.getProductName() + " 등록 완료";
     }
 
     @Operation(summary = "상품 목록", description = "상품 목록을 불러올 수 있습니다.", responses = {
@@ -80,6 +80,15 @@ public class ProductController {
         List<ProductDTO> productlist = productService.getProductList();
         model.addAttribute("productlist",productlist);
         return productlist.toString();
+    }
+
+    @Operation(summary = "상품 상세 보기", description = "상품 상세 정보를 확인할 수 있습니다.")
+    @GetMapping("/product/detail")
+    public String productWithBrand(@RequestParam int pno, Model model){
+        ProductDTO productDetail = productService.getProductWithBrand(pno);
+        model.addAttribute("productDetail", productDetail);
+        System.out.println(productDetail);
+        return pno + " 상품 상세 보기: " + productDetail;
     }
 
     @Operation(summary = "상품 수정", description = "상품 정보를 수정할 수 있습니다.", responses = {

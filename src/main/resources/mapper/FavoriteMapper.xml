@@ -3,13 +3,13 @@
 <mapper namespace="com.shoppingmall.shop.mapper.FavoriteMapper">
 
     <!-- 상품 찜 하기 -->
-    <insert id="addFavorite" parameterType="com.shoppingmall.shop.data.InquiryDTO">
+    <insert id="addFavorite" parameterType="favorite">
         INSERT INTO favorite(customer_id, pno)
         VALUES (#{customerId}, #{pno})
     </insert>
 
     <!-- 상품 찜 삭제 -->
-    <delete id="deleteFavorite" parameterType="com.shoppingmall.shop.data.InquiryDTO">
+    <delete id="deleteFavorite" parameterType="favorite">
         DELETE
         FROM favorite
         WHERE customer_id = #{customerId}
@@ -17,7 +17,7 @@
     </delete>
 
     <!-- 찜 상품 목록 -->
-    <select id="getFavoriteList" resultType="com.shoppingmall.shop.data.FavoriteDTO">
+    <select id="getFavoriteList" resultType="favorite">
         SELECT *
         FROM favorite
         WHERE customer_id = #{customerId}

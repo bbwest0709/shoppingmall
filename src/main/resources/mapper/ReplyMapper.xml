@@ -3,25 +3,25 @@
 <mapper namespace="com.shoppingmall.shop.mapper.ReplyMapper">
 
     <!-- 답변 등록 -->
-    <insert id="addReply" parameterType="com.shoppingmall.shop.data.ReplyDTO">
+    <insert id="addReply" parameterType="reply">
         INSERT INTO reply(admin_id, reply_type, response_id, content)
         VALUES (#{adminId}, #{replyType}, #{responseId}, #{content})
     </insert>
 
     <!-- 답변 수정 -->
-    <update id="updateReply" parameterType="com.shoppingmall.shop.data.ReplyDTO">
+    <update id="updateReply" parameterType="reply">
         UPDATE reply
         SET content=#{content}
         WHERE rpno = #{rpno}
     </update>
 
     <!-- 답변 삭제 -->
-    <delete id="deleteReply" parameterType="com.shoppingmall.shop.data.ReplyDTO">
+    <delete id="deleteReply" parameterType="reply">
         DELETE FROM reply WHERE rpno=#{rpno}
     </delete>
 
     <!-- 답변 목록-->
-    <select id="getReplyList" resultType="com.shoppingmall.shop.data.ReplyDTO">
+    <select id="getReplyList" resultType="reply">
         SELECT * FROM reply
     </select>
 

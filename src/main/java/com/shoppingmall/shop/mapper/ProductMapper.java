@@ -20,6 +20,8 @@ public interface ProductMapper {
 
     void deleteBrand(BrandDTO brandDTO);
 
+    BrandDTO searchBrand(int bno);
+
     List<ProductDTO> getProductList();
 
     void updateProduct(ProductDTO productDTO);
@@ -31,4 +33,7 @@ public interface ProductMapper {
     void updateProductQuantity(int pno);
 
     Integer getSellingPriceByPno(int pno);
+
+    ProductDTO getProductWithBrand(int pno);
+
 }

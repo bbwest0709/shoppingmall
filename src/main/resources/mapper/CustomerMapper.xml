@@ -3,20 +3,20 @@
 <mapper namespace="com.shoppingmall.shop.mapper.CustomerMapper">
 
     <!-- 회원 가입 -->
-    <insert id="insertCustomer" parameterType="com.shoppingmall.shop.data.CustomerDTO">
+    <insert id="insertCustomer" parameterType="customer">
         INSERT INTO customer (customer_id, customer_name, email, password, phone_number, gender)
         VALUES (#{customerId}, #{customerName}, #{email}, #{password}, #{phoneNumber}, #{gender})
     </insert>
 
     <!-- 회원ID로 회원 정보 가져오기-->
-    <select id="getCustomerById" resultType="com.shoppingmall.shop.data.CustomerDTO">
+    <select id="getCustomerById" resultType="customer">
         SELECT *
         FROM customer
         WHERE customer_id = #{customerId}
     </select>
 
     <!-- 회원의 주소 정보 저장-->
-    <insert id="addAddress" parameterType="com.shoppingmall.shop.data.AddressDTO">
+    <insert id="addAddress" parameterType="customer">
         INSERT INTO customer_address (customer_id, recipient_name, postal_code, address, address_details,
                                       recipient_phone_number, delivery_request, default_address)
         VALUES (#{customerId}, #{recipientName}, #{postalCode}, #{address}, #{addressDetails}, #{recipientPhoneNumber},
@@ -24,14 +24,14 @@
     </insert>
 
     <!-- 주소 번호로 상세 정보-->
-    <select id="getAddressById" resultType="com.shoppingmall.shop.data.AddressDTO">
+    <select id="getAddressById" resultType="customer">
         SELECT *
         FROM customer_address
         WHERE addrno = #{addrno}
     </select>
 
     <!-- 주소 수정-->
-    <update id="updateAddress" parameterType="com.shoppingmall.shop.data.AddressDTO">
+    <update id="updateAddress" parameterType="customer">
         UPDATE customer_address
         SET recipient_name=#{recipientName},
             postal_code=#{postalCode},

@@ -12,4 +12,22 @@
         <!-- 쿼리에 보내는 파라미터가 null인 경우, 오류가 발생하는 것 방지 -->
         <setting name="jdbcTypeForNull" value="NULL"/>
     </settings>
+
+
+    <typeAliases>
+        <typeAlias type="com.shoppingmall.shop.data.ProductDTO" alias="product"/>
+        <typeAlias type="com.shoppingmall.shop.data.CategoryDTO" alias="category"/>
+        <typeAlias type="com.shoppingmall.shop.data.BrandDTO" alias="brand"/>
+        <typeAlias type="com.shoppingmall.shop.data.CustomerDTO" alias="customer"/>
+        <typeAlias type="com.shoppingmall.shop.data.CartDTO" alias="cart"/>
+        <typeAlias type="com.shoppingmall.shop.data.OrdersDTO" alias="orders"/>
+        <typeAlias type="com.shoppingmall.shop.data.OrderDetailDTO" alias="orderDetail"/>
+        <typeAlias type="com.shoppingmall.shop.data.ReviewDTO" alias="review"/>
+        <typeAlias type="com.shoppingmall.shop.data.InquiryDTO" alias="inquiry"/>
+        <typeAlias type="com.shoppingmall.shop.data.ReplyDTO" alias="reply"/>
+        <typeAlias type="com.shoppingmall.shop.data.AdminDTO" alias="admin"/>
+        <typeAlias type="com.shoppingmall.shop.data.FavoriteDTO" alias="favorite"/>
+        <typeAlias type="com.shoppingmall.shop.data.AddressDTO" alias="address"/>
+    </typeAliases>
+
 </configuration>

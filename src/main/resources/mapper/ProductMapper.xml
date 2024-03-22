@@ -3,68 +3,118 @@
 <mapper namespace="com.shoppingmall.shop.mapper.ProductMapper">
 
     <!-- 카테고리 등록-->
-    <insert id="addCategory" parameterType="com.shoppingmall.shop.data.CategoryDTO" >
+    <insert id="addCategory" parameterType="category">
         INSERT INTO category (category_name)
         VALUES (#{categoryName})
     </insert>
 
     <!-- 카테고리 삭제 -->
-    <delete id="deleteCategory" parameterType="com.shoppingmall.shop.data.CategoryDTO">
-        DELETE FROM category WHERE cgno=#{cgno}
+    <delete id="deleteCategory" parameterType="category">
+        DELETE
+        FROM category
+        WHERE cgno = #{cgno}
     </delete>
 
     <!-- 브랜드 등록 -->
-    <insert id="addBrand" parameterType="com.shoppingmall.shop.data.BrandDTO" >
+    <insert id="addBrand" parameterType="brand">
         INSERT INTO brand(brand_name, brand_image, cgno)
         VALUES (#{brandName}, #{brandImage}, #{cgno})
     </insert>
 
     <!-- 브랜드 삭제 -->
-    <delete id="deleteBrand" parameterType="com.shoppingmall.shop.data.BrandDTO">
-        DELETE FROM brand WHERE bno=#{bno}
+    <delete id="deleteBrand" parameterType="brand">
+        DELETE
+        FROM brand
+        WHERE bno = #{bno}
     </delete>
 
+    <!-- 브랜드 조회 -->
+    <select id="searchBrand" resultType="brand">
+        SELECT *
+        FROM brand
+        WHERE bno = #{bno}
+    </select>
+
     <!-- 상품 등록-->
-    <insert id="addProduct" parameterType="com.shoppingmall.shop.data.ProductDTO" >
+    <insert id="addProduct" parameterType="product">
         INSERT INTO product (product_name, product_image, description, price, selling_price, quantity, bno)
         VALUES (#{productName}, #{productImage}, #{description}, #{price}, #{sellingPrice}, #{quantity}, #{bno})
     </insert>
 
     <!-- 전체 상품 목록 -->
-    <select id="getProductList" resultType="com.shoppingmall.shop.data.ProductDTO">
-        SELECT * FROM product ORDER BY regdate DESC
+    <select id="getProductList" resultType="product">
+        SELECT *
+        FROM product
+        ORDER BY regdate DESC
+    </select>
+
+    <resultMap id="ProductWithBrandResultMap" type="com.shoppingmall.shop.data.ProductDTO">
+        <id property="pno" column="pno" />
+        <result property="productName" column="product_name" />
+        <result property="productImage" column="product_image" />
+        <result property="description" column="description" />
+        <result property="price" column="price" />
+        <result property="sellingPrice" column="selling_price" />
+        <result property="quantity" column="quantity" />
+        <result property="useyn" column="useyn" />
+        <result property="regdate" column="regdate" />
+        <result property="bno" column="bno" />
+
+        <association property="brand" javaType="com.shoppingmall.shop.data.BrandDTO">
+            <result property="brandName" column="brand_name" />
+            <result property="brandImage" column="brand_image" />
+            <result property="cgno" column="cgno" />
+        </association>
+    </resultMap>
+
+    <!-- 상품 조회 시 브랜드 같이 조회하기 : 상세보기 -->
+    <select id="getProductWithBrand" resultMap="ProductWithBrandResultMap">
+        SELECT p.*, b.brand_name, b.brand_image, b.cgno
+        FROM product AS p
+                 LEFT JOIN brand AS b ON p.bno = b.bno
+        WHERE p.pno = #{pno}
+        ORDER BY p.regdate DESC
     </select>
 
     <!-- 상품 수정 -->
-    <update id="updateProduct" parameterType="com.shoppingmall.shop.data.ProductDTO" >
-        UPDATE product SET product_name=#{productName},
-                           product_image=#{productImage},
-                           description=#{description},
-                           price=#{price},
-                           selling_price=#{sellingPrice},
-                           quantity=#{quantity},
-                           useyn=#{useyn},
-                           bno=#{bno}
-        WHERE pno=#{pno}
+    <update id="updateProduct" parameterType="product">
+        UPDATE product
+        SET product_name=#{productName},
+            product_image=#{productImage},
+            description=#{description},
+            price=#{price},
+            selling_price=#{sellingPrice},
+            quantity=#{quantity},
+            useyn=#{useyn},
+            bno=#{bno}
+        WHERE pno = #{pno}
     </update>
 
     <!-- 상품번호로 상세 정보 조회-->
-    <select id="getProductById" resultType="com.shoppingmall.shop.data.ProductDTO">
-        SELECT * FROM product WHERE pno=#{pno}
+    <select id="getProductById" resultType="product">
+        SELECT *
+        FROM product
+        WHERE pno = #{pno}
     </select>
 
-    <delete id="deleteProduct" parameterType="com.shoppingmall.shop.data.ProductDTO">
-        DELETE FROM product WHERE pno=#{pno}
+    <delete id="deleteProduct" parameterType="product">
+        DELETE
+        FROM product
+        WHERE pno = #{pno}
     </delete>
-    
+
     <!-- 주문 완료하면 해당 상품 재고에서 -1 업데이트 -->
-    <update id="updateProductQuantity" parameterType="com.shoppingmall.shop.data.ProductDTO">
-        UPDATE product SET quantity = quantity - 1 WHERE pno=#{pno}
+    <update id="updateProductQuantity" parameterType="product">
+        UPDATE product
+        SET quantity = quantity - 1
+        WHERE pno = #{pno}
     </update>
 
     <!-- pno에 해당하는 sellingPrice 정보 가져오기 -->
     <select id="getSellingPriceByPno" resultType="java.lang.Integer">
-        SELECT selling_price FROM product WHERE pno=#{pno}
+        SELECT selling_price
+        FROM product
+        WHERE pno = #{pno}
     </select>
 
 </mapper>

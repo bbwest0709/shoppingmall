@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shoppingmall.shop.mapper.OrderMapper">
 
-    <insert id="addOrder" parameterType="com.shoppingmall.shop.data.OrdersDTO">
+    <insert id="addOrder" parameterType="orders">
         INSERT INTO orders (customer_id, ctno, total_price)
         VALUES (#{customerId}, #{ctno}, #{totalPrice})
     </insert>
 
-    <insert id="addOrderDetail" parameterType="com.shoppingmall.shop.data.OrderDetailDTO">
+    <insert id="addOrderDetail" parameterType="orderDetail">
         INSERT INTO order_detail(ono, pno, quantity)
         VALUES (#{ono}, #{pno}, #{quantity})
     </insert>
@@ -21,14 +21,14 @@
     </select>
 
     <!-- 주문 취소 -->
-    <update id="cancelOrder" parameterType="com.shoppingmall.shop.data.OrdersDTO">
+    <update id="cancelOrder" parameterType="orders">
         UPDATE orders
         SET order_status='주문취소'
         WHERE ono = #{ono}
     </update>
 
     <!-- 주문 목록 보기 -->
-    <select id="getOrderList" resultType="com.shoppingmall.shop.data.OrdersDTO">
+    <select id="getOrderList" resultType="orders">
         SELECT *
         FROM orders
         WHERE customer_id = #{customerId}
@@ -36,7 +36,7 @@
     </select>
 
     <!-- 주문 상세 목록 보기 -->
-    <select id="getOrderDetailList" resultType="com.shoppingmall.shop.data.OrderDetailDTO">
+    <select id="getOrderDetailList" resultType="orderDetail">
         SELECT *
         FROM order_detail
         WHERE ono = #{ono}
@@ -54,7 +54,7 @@
 </select>
 
     <!-- 주문 상태 변경 -->
-    <update id="updateOrderStatus" parameterType="com.shoppingmall.shop.data.OrdersDTO">
+    <update id="updateOrderStatus" parameterType="orders">
         UPDATE orders
         SET order_status = #{orderStatus}
         WHERE ono = #{ono}
@@ -68,7 +68,7 @@
     </select>
 
     <!-- 환불 처리 -->
-    <update id="refund" parameterType="com.shoppingmall.shop.data.OrdersDTO">
+    <update id="refund" parameterType="orders">
         UPDATE orders
         SET refund_status = 'Y'
         WHERE ono = #{ono}

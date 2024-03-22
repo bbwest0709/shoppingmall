@@ -17,6 +17,13 @@ public class ProductService {
     ProductMapper productMapper;
 
     public void addProduct(ProductDTO productDTO) {
+
+        BrandDTO brand = productMapper.searchBrand(productDTO.getPno());
+
+        if(brand == null){
+            System.out.println("브랜드를 먼저 등록하세요.");
+        }
+
         productMapper.addProduct(productDTO);
     }
 
@@ -85,4 +92,9 @@ public class ProductService {
     public int getSellingPriceByPno(int pno) {
         return productMapper.getSellingPriceByPno(pno);
     }
+
+    public ProductDTO getProductWithBrand(int pno) {
+        return productMapper.getProductWithBrand(pno);
+    }
+
 }
